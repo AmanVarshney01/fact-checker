@@ -32,12 +32,11 @@ export default function Page() {
     };
 
     async function handleSearch() {
-        setIsSearched(true)
         const response = await fetch(`/api/factcheck?query=${encodeURIComponent(query)}`);
         const results = await response.json();
         setFactChecks(results);
-
         await getArticles(query)
+        setIsSearched(true)
     }
 
     function clearButton() {
@@ -80,40 +79,54 @@ export default function Page() {
                 <h1 className={"text-9xl text-[#121212]"}>News Verifier</h1>
             </motion.div>
 
-            <motion.div layout className={"flex flex-row relative"}>
-                <input required onKeyPress={handleKeyPress} autoFocus={true} placeholder={"Write Your Query Here..."} className={"pl-5 pr-28 border border-black rounded-lg min-w-[40vw] h-[5vh]"} type="text" value={query} onChange={(e) => setQuery(e.target.value)} />
-                <button className={"absolute hover:bg-[#62C370] h-full px-5 right-0 border border-black rounded-lg"} onClick={handleSearch}>Search</button>
+            <motion.div layout className={"flex flex-row relative gap-2"}>
+                <input required onKeyPress={handleKeyPress} autoFocus={true} placeholder={"Write Your Query Here..."} className={"px-5 border border-black rounded-lg min-w-[38vw] h-[5vh]"} type="text" value={query} onChange={(e) => setQuery(e.target.value)} />
+                <button className={" hover:bg-[#62C370] h-[5vh] px-5 right-0 border border-black rounded-lg"} onClick={handleSearch}>Search</button>
             </motion.div>
 
             {isSearched &&
-                <div className={"flex flex-row min-w-[40vw] justify-between gap-10"}>
-                    <p>Related News: {factChecks.length}</p>
-                    <button onClick={clearButton}>Clear</button>
-                </div>
+                // <div className={"flex flex-row min-w-[40vw] justify-between gap-10"}>
+                //     <p>Related News: {factChecks.length}</p>
+                //     <button onClick={clearButton}>Clear</button>
+                // </div>
+                <motion.div initial={{opacity: 0}} animate={{opacity:1}} className={"flex lg:flex-row flex-col gap-4"}>
+                    <ul className={"flex flex-col gap-6 lg:w-2/3 h-fit"}>
+                        <div className={"border-b text-lg"}>
+                            <h2>Fact Checks</h2>
+                        </div>
+                        {/*{factChecks.length === 0 && <li>No results</li>}*/}
+                        {factChecks.map((factCheck) => (
+                            // eslint-disable-next-line react/jsx-key
+                            <AnimatePresence>
+                                <motion.li initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }} layout className={"border border-black rounded-lg py-4 px-6 flex flex-row justify-between"} key={factCheck.claimReview[0].url}>
+                                    <a target={"_blank"} className={"line-clamp-1"} href={factCheck.claimReview[0].url}>{factCheck.claimReview[0].title}</a>
+                                    {factCheck.claimReview[0].textualRating === "True" ?
+                                        <p className={"ml-10 text-green-500 line-clamp-1"}>{factCheck.claimReview[0].textualRating}</p> :
+                                        <p className={"ml-10 text-red-500 line-clamp-1"}>{factCheck.claimReview[0].textualRating}</p>}
+                                    {/*<p className={"ml-10"}>{factCheck.claimReview[0].textualRating}</p>*/}
+                                </motion.li>
+                            </AnimatePresence>
+                        ))}
+                    </ul>
+
+                    {/*<button onClick={handleButtonClick}>Get Articles</button>*/}
+                    <div className={"flex flex-col gap-6 lg:w-fit h-fit"}>
+                        <div className={"border-b text-lg"}>
+                            <h2>Relevant News</h2>
+                        </div>
+                        {articles.map((article) => (
+                            // eslint-disable-next-line react/jsx-key
+                            <AnimatePresence>
+                                <motion.div className={"border border-black rounded-lg py-4 px-6 h-max"} initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }} layout>
+                                    <a target={"_blank"} key={article.title} href={article.url}><h2>{article.title}</h2></a>
+                                </motion.div>
+                            </AnimatePresence>
+                        ))}
+                    </div>
+                </motion.div>
             }
 
-            <ul className={"flex flex-col gap-6"}>
-                {/*{factChecks.length === 0 && <li>No results</li>}*/}
-                {factChecks.map((factCheck) => (
-                    // eslint-disable-next-line react/jsx-key
-                    <AnimatePresence>
-                        <motion.li initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }} layout className={"border border-black rounded-lg py-4 px-6 h-max flex flex-row justify-between"} key={factCheck.claimReview[0].url}>
-                            <a target={"_blank"} className={"line-clamp-1"} href={factCheck.claimReview[0].url}>{factCheck.claimReview[0].title}</a>
-                            {factCheck.claimReview[0].textualRating === "True" ? <p className={"ml-10 text-green-500"}>{factCheck.claimReview[0].textualRating}</p> : <p className={"ml-10 text-red-500"}>{factCheck.claimReview[0].textualRating}</p>}
-                            {/*<p className={"ml-10"}>{factCheck.claimReview[0].textualRating}</p>*/}
-                        </motion.li>
-                    </AnimatePresence>
-                ))}
-            </ul>
 
-            {/*<button onClick={handleButtonClick}>Get Articles</button>*/}
-            {articles.map((article) => (
-                <h2 key={article.title}>{article.title}</h2>
-            ))}
-
-            {/*<div className={"absolute bottom-0 h-[20vh] w-full border-t border-gray-400"}>*/}
-
-            {/*</div>*/}
         </main>
     );
 }
