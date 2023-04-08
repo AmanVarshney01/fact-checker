@@ -62,7 +62,7 @@ export default function FactCheckPage() {
             </nav>
 
             <div className={""}>
-                <h1 className={"text-9xl text-[#121212]"}>Fake Or Not</h1>
+                <h1 className={"text-9xl text-[#121212]"}>News Verifier</h1>
             </div>
 
             <div className={"flex flex-row relative"}>
