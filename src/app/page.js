@@ -2,12 +2,14 @@
 import {useEffect, useState} from 'react';
 import {useSearchParams} from "next/navigation";
 import { Kanit } from "next/font/google";
-// import natural from "natural";
-// import natural from "natural";
+import Image from "next/image";
+import logo from "public/logo.jpg";
+import Link from "next/link";
+
 
 const kanit = Kanit({
     subsets: ["latin"],
-    weight: ["400", "700"],
+    weight: ["400", "700", "800"]
 });
 
 export default function FactCheckPage() {
@@ -19,7 +21,7 @@ export default function FactCheckPage() {
 
     async function handleSearch() {
         setIsSearched(true)
-        const response = await fetch(`/api/factcheck?query=${encodeURIComponent(query)}&languagecode=en`);
+        const response = await fetch(`/api/factcheck?query=${encodeURIComponent(query)}`);
         const results = await response.json();
         setFactChecks(results);
     }
@@ -38,19 +40,33 @@ export default function FactCheckPage() {
         }
     }, [])
 
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleSearch();
+        }
+    }
+
     // if (query) {
     //     handleSearch();
     // }
 
     return (
-        <main className={`relative w-full min-h-[100svh] flex flex-col justify-center items-center gap-10 bg-[#f1f1f1] ${kanit.className} py-16 px-10`}>
+        <main className={`${kanit.className} relative w-full min-h-[100svh] flex flex-col justify-center items-center gap-10 py-16 px-10`}>
+
+            <nav className={"bg-[#f1f1f1] w-full shadow-md fixed top-0 py-2 px-4 flex flex-row justify-between items-center z-10"}>
+                <Link href={"/"}><Image className={"rounded-full w-auto"} width={30} height={30} src={logo} alt={"Fake Or Not Logo"} /></Link>
+                <div className={"flex flex-row gap-4"}>
+                    <Link href={"/motive"}>Motive</Link>
+                    <Link href={"/usage"}>How to use?</Link>
+                </div>
+            </nav>
 
             <div className={""}>
                 <h1 className={"text-9xl text-[#121212]"}>Fake Or Not</h1>
             </div>
 
             <div className={"flex flex-row relative"}>
-                <input placeholder={"Write Your Query Here..."} className={"px-5 border border-black rounded-lg min-w-[40vw] h-[5vh]"} type="text" value={query} onChange={(e) => setQuery(e.target.value)} />
+                <input required onKeyPress={handleKeyPress} autoFocus={true} placeholder={"Write Your Query Here..."} className={"pl-5 pr-28 border border-black rounded-lg min-w-[40vw] h-[5vh]"} type="text" value={query} onChange={(e) => setQuery(e.target.value)} />
                 <button className={"absolute hover:bg-[#62C370] h-full px-5 right-0 border border-black rounded-lg"} onClick={handleSearch}>Search</button>
             </div>
 
