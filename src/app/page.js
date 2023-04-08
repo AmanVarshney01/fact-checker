@@ -129,7 +129,7 @@ export default function Page() {
             </motion.div>
 
             <motion.div layout className={"flex flex-row relative gap-2"}>
-                <input required onKeyPress={handleKeyPress} autoFocus={true} placeholder={"Write Your Query Here..."} className={"px-5 border border-black rounded-lg min-w-[38vw] h-[5vh]"} type="text" value={query} onChange={(e) => setQuery(e.target.value)} />
+                <input required onKeyDown={handleKeyPress} autoFocus={true} placeholder={"Write Your Query Here..."} className={"px-5 border border-black rounded-lg min-w-[38vw] h-[5vh]"} type="text" value={query} onChange={(e) => setQuery(e.target.value)} />
                 <button className={" hover:bg-[#62C370] h-[5vh] px-5 right-0 border-2 border-gray-900 rounded-lg"} onClick={handleSearch}>Search</button>
                 {isSearched && (
                     <button className={"h-[5vh] px-5 right-0 border-2 border-gray-900 rounded-lg hover:bg-red-400"} onClick={clearButton}>Clear</button>
