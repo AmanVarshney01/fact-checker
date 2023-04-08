@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react';
 import {useSearchParams} from "next/navigation";
 import { Kanit } from "next/font/google";
 // import natural from "natural";
+// import natural from "natural";
 
 const kanit = Kanit({
     subsets: ["latin"],
@@ -14,20 +15,6 @@ export default function FactCheckPage() {
     const search = searchParams.get('search')
     const [query, setQuery] = useState(search ? search : '');
     const [factChecks, setFactChecks] = useState([]);
-
-    // const natural = require('natural');
-    // const tokenizer = new natural.WordTokenizer();
-    //
-    // let words = tokenizer.tokenize(query);
-    //
-    // console.log(words);
-
-    // let stemmed_words= words.map(word => natural.PorterStemmer.stem(word));
-
-    // let filtered_words = words.filter(word => !natural.stopwords.includes(word));
-
-    // console.log(filtered_words.join(" "));
-
     const [isSearched, setIsSearched] = useState(false);
 
     async function handleSearch() {
@@ -38,6 +25,8 @@ export default function FactCheckPage() {
     }
 
     function clearButton() {
+        setFactChecks([])
+        setIsSearched(false)
         setQuery('')
     }
 
@@ -68,7 +57,7 @@ export default function FactCheckPage() {
             {isSearched &&
                 <div className={"flex flex-row min-w-[40vw] justify-between gap-10"}>
                     <p>Related News: {factChecks.length}</p>
-                    {/*<button onClick={clearButton}>Clear</button>*/}
+                    <button onClick={clearButton}>Clear</button>
                 </div>
             }
 
@@ -76,7 +65,7 @@ export default function FactCheckPage() {
                 {/*{factChecks.length === 0 && <li>No results</li>}*/}
                 {factChecks.map((factCheck) => (
                     <li className={"border border-black rounded-lg py-4 px-6 h-max flex flex-row justify-between"} key={factCheck.claimReview[0].url}>
-                        <a className={"line-clamp-1"} href={factCheck.claimReview[0].url}>{factCheck.claimReview[0].title}</a>
+                        <a target={"_blank"} className={"line-clamp-1"} href={factCheck.claimReview[0].url}>{factCheck.claimReview[0].title}</a>
                         {factCheck.claimReview[0].textualRating === "True" ? <p className={"ml-10 text-green-500"}>{factCheck.claimReview[0].textualRating}</p> : <p className={"ml-10 text-red-500"}>{factCheck.claimReview[0].textualRating}</p>}
                         {/*<p className={"ml-10"}>{factCheck.claimReview[0].textualRating}</p>*/}
                     </li>
