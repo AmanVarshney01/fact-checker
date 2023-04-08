@@ -1,7 +1,13 @@
 "use client";
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useSearchParams} from "next/navigation";
+import { Kanit } from "next/font/google";
 // import natural from "natural";
+
+const kanit = Kanit({
+    subsets: ["latin"],
+    weight: ["400", "700"],
+});
 
 export default function FactCheckPage() {
     const searchParams = useSearchParams();
@@ -22,42 +28,48 @@ export default function FactCheckPage() {
 
     // console.log(filtered_words.join(" "));
     async function handleSearch() {
-        const response = await fetch(`/api/factcheck?query=${encodeURIComponent(query)}&languageCode=en`);
+        const response = await fetch(`/api/factcheck?query=${encodeURIComponent(query)}&languagecode=en`);
         const results = await response.json();
         setFactChecks(results);
     }
 
-    if (query) {
-        handleSearch()
-    }
+    useEffect(()=> {
+        if (query) {
+            handleSearch()
+        } else {
+            setFactChecks([])
+        }
+    }, [])
 
-    // async function searchFactCheck() {
-    //     const response = await fetch(`/api/factcheck?search=${encodeURIComponent(search)}&languageCode=en`);
-    //     const results = await response.json();
-    //     setFactChecks(results);
+    // if (query) {
+    //     handleSearch();
     // }
 
-
     return (
-        <div>
+        <main className={`w-full min-h-[100svh] flex flex-col justify-center items-center gap-10 bg-[#f1f1f1] ${kanit.className} py-16`}>
 
-            <h1 className={"text-5xl"}>Fact Check</h1>
+            <div className={""}>
+                <h1 className={"text-9xl text-[#121212]"}>Fake Or Not</h1>
+            </div>
 
-            <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} />
-            <button onClick={handleSearch}>Search</button>
-            <h1>Fact Checks</h1>
-            <p>Query: {query}</p>
-            <p>Results: {factChecks.length}</p>
+            <div className={"flex flex-row relative"}>
+                <input className={"px-5 border border-black rounded-lg w-[40vw] h-[5vh]"} type="text" value={query} onChange={(e) => setQuery(e.target.value)} />
+                <button className={"absolute hover:bg-[#62C370] h-full px-5 right-0 border border-black rounded-lg"} onClick={handleSearch}>Search</button>
+            </div>
+            <div className={"flex flex-row gap-10"}>
+                <p>Related News: {factChecks.length}</p>
+            </div>
 
-            <ul>
-                {factChecks.length === 0 && <li>No results</li>}
+            <ul className={"flex flex-col gap-6"}>
+                {/*{factChecks.length === 0 && <li>No results</li>}*/}
                 {factChecks.map((factCheck) => (
-                    <li key={factCheck.claimReview[0].url}>
+                    <li className={"border border-black rounded-lg py-4 px-6 h-max flex flex-row justify-between"} key={factCheck.claimReview[0].url}>
                         <a href={factCheck.claimReview[0].url}>{factCheck.claimReview[0].title}</a>
-                        <p>{factCheck.claimReview[0].textualRating}</p>
+                        {factCheck.claimReview[0].textualRating == "True" ? <p className={"ml-10 text-green-500"}>{factCheck.claimReview[0].textualRating}</p> : <p className={"ml-10 text-red-500"}>{factCheck.claimReview[0].textualRating}</p>}
+                        {/*<p className={"ml-10"}>{factCheck.claimReview[0].textualRating}</p>*/}
                     </li>
                 ))}
             </ul>
-        </div>
+        </main>
     );
 }
