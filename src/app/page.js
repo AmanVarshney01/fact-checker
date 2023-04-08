@@ -56,6 +56,7 @@ export default function FactCheckPage() {
                 <input className={"px-5 border border-black rounded-lg w-[40vw] h-[5vh]"} type="text" value={query} onChange={(e) => setQuery(e.target.value)} />
                 <button className={"absolute hover:bg-[#62C370] h-full px-5 right-0 border border-black rounded-lg"} onClick={handleSearch}>Search</button>
             </div>
+
             <div className={"flex flex-row gap-10"}>
                 <p>Related News: {factChecks.length}</p>
             </div>
