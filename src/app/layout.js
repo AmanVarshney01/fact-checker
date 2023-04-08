@@ -4,8 +4,8 @@ export const metadata = {
   title: 'Fake Or Not',
   description: 'A simple fact checking app',
   icons: {
-    icon: '/public/favicon.png',
-    shortcut: '/public/favicon.png'
+    icon: '/favicon.png',
+    shortcut: '/favicon.png'
   },
 }
 
