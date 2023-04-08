@@ -46,31 +46,35 @@ export default function FactCheckPage() {
     // }
 
     return (
-        <main className={`w-full min-h-[100svh] flex flex-col justify-center items-center gap-10 bg-[#f1f1f1] ${kanit.className} py-16`}>
+        <main className={`relative w-full min-h-[100svh] flex flex-col justify-center items-center gap-10 bg-[#f1f1f1] ${kanit.className} py-16 px-10`}>
 
             <div className={""}>
                 <h1 className={"text-9xl text-[#121212]"}>Fake Or Not</h1>
             </div>
 
             <div className={"flex flex-row relative"}>
-                <input className={"px-5 border border-black rounded-lg w-[40vw] h-[5vh]"} type="text" value={query} onChange={(e) => setQuery(e.target.value)} />
+                <input className={"px-5 border border-black rounded-lg min-w-[40vw] h-[5vh]"} type="text" value={query} onChange={(e) => setQuery(e.target.value)} />
                 <button className={"absolute hover:bg-[#62C370] h-full px-5 right-0 border border-black rounded-lg"} onClick={handleSearch}>Search</button>
             </div>
 
-            <div className={"flex flex-row gap-10"}>
-                <p>Related News: {factChecks.length}</p>
-            </div>
+            {/*<div className={"flex flex-row gap-10"}>*/}
+            {/*    <p>Related News: {factChecks.length}</p>*/}
+            {/*</div>*/}
 
             <ul className={"flex flex-col gap-6"}>
                 {/*{factChecks.length === 0 && <li>No results</li>}*/}
                 {factChecks.map((factCheck) => (
                     <li className={"border border-black rounded-lg py-4 px-6 h-max flex flex-row justify-between"} key={factCheck.claimReview[0].url}>
-                        <a href={factCheck.claimReview[0].url}>{factCheck.claimReview[0].title}</a>
-                        {factCheck.claimReview[0].textualRating == "True" ? <p className={"ml-10 text-green-500"}>{factCheck.claimReview[0].textualRating}</p> : <p className={"ml-10 text-red-500"}>{factCheck.claimReview[0].textualRating}</p>}
+                        <a className={"line-clamp-1"} href={factCheck.claimReview[0].url}>{factCheck.claimReview[0].title}</a>
+                        {factCheck.claimReview[0].textualRating === "True" ? <p className={"ml-10 text-green-500"}>{factCheck.claimReview[0].textualRating}</p> : <p className={"ml-10 text-red-500"}>{factCheck.claimReview[0].textualRating}</p>}
                         {/*<p className={"ml-10"}>{factCheck.claimReview[0].textualRating}</p>*/}
                     </li>
                 ))}
             </ul>
+
+            {/*<div className={"absolute bottom-0 h-[20vh] w-full border-t border-gray-400"}>*/}
+
+            {/*</div>*/}
         </main>
     );
 }
