@@ -71,10 +71,6 @@ export default function Page() {
         }
     }
 
-    // if (query) {
-    //     handleSearch();
-    // }
-
     return (
         <main className={`${kanit.className} relative w-full min-h-[100svh] flex flex-col justify-center items-center gap-10 py-16 px-10`}>
 
@@ -157,7 +153,7 @@ export default function Page() {
                             >
                                 <div className="px-3 py-4">
                                     <p>
-                                        The motive for creating a news verifier app is to address the growing problem of fake news and misinformation that is prevalent in today's society. With the rise of social media and the ease of sharing information, it has become increasingly difficult to discern what information is true and what is false.
+                                        The motive for creating a news verifier app is to address the growing problem of fake news and misinformation that is prevalent in today&amp;s society. With the rise of social media and the ease of sharing information, it has become increasingly difficult to discern what information is true and what is false.
                                     </p>
                                 </div>
                                 <div className="flex justify-end p-4">
