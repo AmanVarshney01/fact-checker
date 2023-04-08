@@ -25,7 +25,8 @@ export default function Page() {
     const [isSearched, setIsSearched] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [isError, setIsError] = useState(false);
+    const [isErrorFacts, setIsErrorFacts] = useState(false);
+    const [isErrorNews, setIsErrorNews] = useState(false);
 
     // const OPENAI_API_KEY = "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"
     //
@@ -60,19 +61,20 @@ export default function Page() {
             );
             setArticles(response.data.articles);
         } catch (error) {
-            setIsError(true);
+            setIsErrorNews(true);
         }
     };
 
     async function handleSearch() {
         setIsLoading(true)
-        setIsError(false)
+        setIsErrorFacts(false)
+        setIsErrorNews(false)
         try {
             const response = await fetch(`/api/factcheck?query=${encodeURIComponent(query)}`);
             const results = await response.json();
             setFactChecks(results);
         } catch (error) {
-            setIsError(true)
+            setIsErrorFacts(true)
         }
         await getArticles(query)
         setIsSearched(true)
@@ -172,7 +174,7 @@ export default function Page() {
                         <div className={"border-b text-lg"}>
                             <h2>Fact Checks</h2>
                         </div>
-                        {isError && <div>No Query found in our database</div>}
+                        {isErrorFacts && <div>No Query found in our database :(</div>}
                         {/*{factChecks.length === 0 && <li>No results</li>}*/}
                         {factChecks.map((factCheck) => (
                             // eslint-disable-next-line react/jsx-key
@@ -193,7 +195,7 @@ export default function Page() {
                         <div className={"border-b text-lg"}>
                             <h2>Relevant News</h2>
                         </div>
-                        {isError && <div>No Query found in our database</div>}
+                        {isErrorNews && <div>No Query found in our database :(</div>}
                         {/*{articles.length === 0 && <li>No results</li>}*/}
                         {articles.map((article) => (
                             // eslint-disable-next-line react/jsx-key
