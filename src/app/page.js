@@ -27,7 +27,11 @@ export default function FactCheckPage() {
     // let filtered_words = words.filter(word => !natural.stopwords.includes(word));
 
     // console.log(filtered_words.join(" "));
+
+    const [isRelatedNews, setIsRelatedNews] = useState(false);
+
     async function handleSearch() {
+        setIsRelatedNews(true)
         const response = await fetch(`/api/factcheck?query=${encodeURIComponent(query)}&languagecode=en`);
         const results = await response.json();
         setFactChecks(results);
@@ -57,9 +61,11 @@ export default function FactCheckPage() {
                 <button className={"absolute hover:bg-[#62C370] h-full px-5 right-0 border border-black rounded-lg"} onClick={handleSearch}>Search</button>
             </div>
 
-            {/*<div className={"flex flex-row gap-10"}>*/}
-            {/*    <p>Related News: {factChecks.length}</p>*/}
-            {/*</div>*/}
+            {isRelatedNews &&
+                <div className={"flex flex-row gap-10"}>
+                    <p>Related News: {factChecks.length}</p>
+                </div>
+            }
 
             <ul className={"flex flex-col gap-6"}>
                 {/*{factChecks.length === 0 && <li>No results</li>}*/}
