@@ -22,6 +22,7 @@ export default function Page() {
     const [factChecks, setFactChecks] = useState([]);
     const [articles, setArticles] = useState([]);
     const [isSearched, setIsSearched] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
 
     const getArticles = async (query) => {
@@ -51,6 +52,17 @@ export default function Page() {
         } else {
             setFactChecks([])
         }
+
+        const handleEscapeKeyPress = (event) => {
+            if (event.key === "Escape") {
+                setIsModalOpen(false);
+            }
+        };
+        document.addEventListener("keydown", handleEscapeKeyPress);
+        return () => {
+            document.removeEventListener("keydown", handleEscapeKeyPress);
+        };
+
     }, [])
 
     const handleKeyPress = (event) => {
@@ -69,8 +81,7 @@ export default function Page() {
             <nav className={"bg-[#f1f1f1] w-full shadow-md fixed top-0 py-2 px-4 flex flex-row justify-between items-center z-10"}>
                 <Link href={"/"}><Image className={"rounded-full w-auto h-10 border-2 border-[#121212]"} width={100} height={100} src={logo} alt={"Fake Or Not Logo"} /></Link>
                 <div className={"flex flex-row gap-4"}>
-                    <Link href={"/motive"}>Motive</Link>
-                    <Link href={"/usage"}>How to use?</Link>
+                    <button onClick={() => setIsModalOpen(true)}>Motive</button>
                     <a target={"_blank"} href="https://github.com/BreakTos/Fake-News-Detection/">Download Extension</a>
                 </div>
             </nav>
@@ -81,7 +92,10 @@ export default function Page() {
 
             <motion.div layout className={"flex flex-row relative gap-2"}>
                 <input required onKeyPress={handleKeyPress} autoFocus={true} placeholder={"Write Your Query Here..."} className={"px-5 border border-black rounded-lg min-w-[38vw] h-[5vh]"} type="text" value={query} onChange={(e) => setQuery(e.target.value)} />
-                <button className={" hover:bg-[#62C370] h-[5vh] px-5 right-0 border border-black rounded-lg"} onClick={handleSearch}>Search</button>
+                <button className={" hover:bg-[#62C370] h-[5vh] px-5 right-0 border-2 border-gray-900 rounded-lg"} onClick={handleSearch}>Search</button>
+                {isSearched && (
+                    <button className={"h-[5vh] px-5 right-0 border-2 border-gray-900 rounded-lg hover:bg-gray-400"} onClick={clearButton}>Clear</button>
+                )}
             </motion.div>
 
             {isSearched &&
@@ -98,7 +112,7 @@ export default function Page() {
                         {factChecks.map((factCheck) => (
                             // eslint-disable-next-line react/jsx-key
                             <AnimatePresence>
-                                <motion.li initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }} layout className={"border border-black rounded-lg py-4 px-6 flex flex-row justify-between"} key={factCheck.claimReview[0].url}>
+                                <motion.li layoutId={factCheck.claimReview[0].url} initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }} className={"border border-black rounded-lg py-4 px-6 flex flex-row justify-between"} key={factCheck.claimReview[0].url}>
                                     <a target={"_blank"} className={"line-clamp-1"} href={factCheck.claimReview[0].url}>{factCheck.claimReview[0].title}</a>
                                     {factCheck.claimReview[0].textualRating === "True" ?
                                         <p className={"ml-10 text-green-500 line-clamp-1"}>{factCheck.claimReview[0].textualRating}</p> :
@@ -117,7 +131,7 @@ export default function Page() {
                         {articles.map((article) => (
                             // eslint-disable-next-line react/jsx-key
                             <AnimatePresence>
-                                <motion.div className={"border border-black rounded-lg py-4 px-6 h-max"} initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }} layout>
+                                <motion.div layoutId={article.url} className={"border border-black rounded-lg py-4 px-6 h-max"} initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }} >
                                     <a target={"_blank"} key={article.title} href={article.url}><h2>{article.title}</h2></a>
                                 </motion.div>
                             </AnimatePresence>
@@ -126,6 +140,39 @@ export default function Page() {
                 </motion.div>
             }
 
+            <div>
+                <AnimatePresence>
+                    {isModalOpen && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center"
+                            onClick={() => setIsModalOpen(false)}
+                        >
+                            <div
+                                className="bg-white rounded-lg overflow-hidden max-w-md w-full"
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                <div className="px-3 py-4">
+                                    <p>
+                                        The motive for creating a news verifier app is to address the growing problem of fake news and misinformation that is prevalent in today's society. With the rise of social media and the ease of sharing information, it has become increasingly difficult to discern what information is true and what is false.
+                                    </p>
+                                </div>
+                                <div className="flex justify-end p-4">
+                                    <button
+                                        onClick={() => setIsModalOpen(false)}
+                                        className="bg-gray-200 rounded-lg px-4 py-2 text-gray-800 hover:bg-gray-300"
+                                    >
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
 
         </main>
     );
