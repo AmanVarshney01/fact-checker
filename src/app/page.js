@@ -26,7 +26,7 @@ export default function Page() {
 
     const getArticles = async (query) => {
         const response = await axios.get(
-            `https://newsapi.org/v2/everything?q=${query}&sortBy=relevancy&page=1&pagesize=10&language=en&apiKey=c727a28d08b84681a92931c904b93a02`
+            `https://newsapi.org/v2/everything?q=${query}&sortBy=popularity&page=1&pagesize=10&language=en&apiKey=c727a28d08b84681a92931c904b93a02`
         );
         setArticles(response.data.articles);
     };
@@ -60,24 +60,6 @@ export default function Page() {
         }
     }
 
-    const handleDownload = () => {
-        const extensionUrl = '/public/Extension.crx';
-        // const link = document.createElement('a');
-        // link.href = url;
-        // link.download = 'Extension.crx';
-        // link.click();
-        if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.downloadItem) {
-            chrome.runtime.downloadItem({
-                url: extensionUrl,
-                saveAs: true
-            }, () => {
-                console.log('Extension installed successfully');
-            });
-        } else {
-            console.error('Chrome API is not available');
-        }
-    };
-
     // if (query) {
     //     handleSearch();
     // }
@@ -90,7 +72,7 @@ export default function Page() {
                 <div className={"flex flex-row gap-4"}>
                     <Link href={"/motive"}>Motive</Link>
                     <Link href={"/usage"}>How to use?</Link>
-                    <button onClick={handleDownload}>Download Extension</button>
+                    <a href="https://github.com/BreakTos/Fake-News-Detection/">Download Extension</a>
                 </div>
             </nav>
 
