@@ -28,13 +28,17 @@ export default function FactCheckPage() {
 
     // console.log(filtered_words.join(" "));
 
-    const [isRelatedNews, setIsRelatedNews] = useState(false);
+    const [isSearched, setIsSearched] = useState(false);
 
     async function handleSearch() {
-        setIsRelatedNews(true)
+        setIsSearched(true)
         const response = await fetch(`/api/factcheck?query=${encodeURIComponent(query)}&languagecode=en`);
         const results = await response.json();
         setFactChecks(results);
+    }
+
+    function clearButton() {
+        setQuery('')
     }
 
     useEffect(()=> {
@@ -57,13 +61,14 @@ export default function FactCheckPage() {
             </div>
 
             <div className={"flex flex-row relative"}>
-                <input className={"px-5 border border-black rounded-lg min-w-[40vw] h-[5vh]"} type="text" value={query} onChange={(e) => setQuery(e.target.value)} />
+                <input placeholder={"Write Your Query Here..."} className={"px-5 border border-black rounded-lg min-w-[40vw] h-[5vh]"} type="text" value={query} onChange={(e) => setQuery(e.target.value)} />
                 <button className={"absolute hover:bg-[#62C370] h-full px-5 right-0 border border-black rounded-lg"} onClick={handleSearch}>Search</button>
             </div>
 
-            {isRelatedNews &&
-                <div className={"flex flex-row gap-10"}>
+            {isSearched &&
+                <div className={"flex flex-row min-w-[40vw] justify-between gap-10"}>
                     <p>Related News: {factChecks.length}</p>
+                    {/*<button onClick={clearButton}>Clear</button>*/}
                 </div>
             }
 
