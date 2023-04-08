@@ -76,7 +76,7 @@ export default function Page() {
         } catch (error) {
             setIsErrorFacts(true)
         }
-        await getArticles(query)
+        getArticles(query)
         setIsSearched(true)
         setIsLoading(false)
     }
