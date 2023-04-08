@@ -72,7 +72,7 @@ export default function Page() {
                 <div className={"flex flex-row gap-4"}>
                     <Link href={"/motive"}>Motive</Link>
                     <Link href={"/usage"}>How to use?</Link>
-                    <a href="https://github.com/BreakTos/Fake-News-Detection/">Download Extension</a>
+                    <a target={"_blank"} href="https://github.com/BreakTos/Fake-News-Detection/">Download Extension</a>
                 </div>
             </nav>
 
