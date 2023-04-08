@@ -1,38 +1,24 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# News Verifier
+News Verifier is a web application that utilizes Next.js, Tailwind CSS, NewsAPI, and Google FactCheck API to provide users with accurate fact checks and relevant news articles.
 
-## Getting Started
+## Features
+Fact Check: Users can enter a claim or topic to search and receive a list of fact checks from Google FactCheck API, providing context and credibility for the claim.
+Related Articles: Along with fact checks, users can view related news articles on the topic they searched for.
+User Interface: The app has a user-friendly interface that is optimized for both desktop and mobile devices.
 
-First, run the development server:
+## Technologies
+Next.js: A React framework for building server-side rendered (SSR) web applications.
+Tailwind CSS: A utility-first CSS framework for building custom designs quickly and efficiently.
+NewsAPI: A RESTful API that provides access to breaking news headlines and articles from various news sources around the world.
+Google FactCheck API: A machine-readable dataset of fact-checks in the schema.org ClaimReview markup format.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## Deployment
+The app is deployed using Vercel and can be accessed at news-verifier.vercel.app
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Usage
+To use the app, simply enter a claim or topic in the search bar and click "Search." The app will retrieve fact checks and related news articles, providing users with a comprehensive understanding of the topic.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Contributions
+Contributions to the project are welcome. Feel free to fork the repository, make changes, and submit a pull request.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Thank you for using News Verifier!
