@@ -94,7 +94,7 @@ export default function Page() {
                         <div className={"border-b text-lg"}>
                             <h2>Fact Checks</h2>
                         </div>
-                        {/*{factChecks.length === 0 && <li>No results</li>}*/}
+                        {{factChecks.length === 0 && <li> YES results</li>}}
                         {factChecks.map((factCheck) => (
                             // eslint-disable-next-line react/jsx-key
                             <AnimatePresence>
