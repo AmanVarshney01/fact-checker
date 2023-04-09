@@ -100,6 +100,7 @@ export default function Page() {
         setFactChecks([])
         setIsSearched(false)
         setQuery('')
+        setLatestNews([])
     }
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {
