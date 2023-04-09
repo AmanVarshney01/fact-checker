@@ -5,7 +5,6 @@ import { Kanit } from "next/font/google";
 import Image from "next/image";
 import logo from "public/logo.jpg";
 import Link from "next/link";
-import axios from 'axios';
 import {AnimatePresence, motion} from "framer-motion";
 
 const kanit = Kanit({
@@ -39,15 +38,6 @@ export default function Page() {
         fetchNews()
     }
 
-    function getArticles(query) {
-        const fetchNews = async () => {
-            const result = await fetch(`/api/news?query=${query}`);
-            const data = await result.json();
-
-            setArticles(data);
-        };
-        fetchNews()
-    }
 
     // const getArticles = async (query) => {
     //     try {
@@ -64,7 +54,6 @@ export default function Page() {
         setIsErrorFacts(false)
         setIsErrorNews(false)
         if (query === '') {
-            setIsErrorNews(true)
             setIsErrorFacts(true)
         } else {
             try {
@@ -75,7 +64,20 @@ export default function Page() {
                 setIsErrorFacts(true)
             }
         }
-        getArticles(query)
+
+        if (query === '') {
+            setIsErrorNews(true)
+        } else {
+            try {
+                const result = await fetch(`/api/news?query=${query}`);
+                const data = await result.json();
+
+                setArticles(data);
+            } catch (error) {
+                setIsErrorNews(true)
+            }
+        }
+
         setIsSearched(true)
         setIsLoading(false)
         setLatestNews([])
@@ -114,12 +116,12 @@ export default function Page() {
     }
 
     return (
-        <main className={`${kanit.className} relative w-full min-h-[100svh] flex flex-col justify-center items-center gap-10 py-16 px-10`}>
+        <main className={`${kanit.className} relative w-full min-h-[100svh] flex flex-col justify-center items-center lg:gap-10 gap-6 lg:py-16 lg:px-10 px-5 py-8`}>
 
             {/*<button onClick={getResponse}>response</button>*/}
             <nav className={"bg-[#f1f1f1] w-full shadow-md fixed top-0 py-2 px-4 flex flex-row justify-between items-center z-10"}>
-                <Link href={"/"}><Image className={"rounded-full w-auto h-10 border-2 border-[#121212]"} width={100} height={100} src={logo} alt={"Fake Or Not Logo"} /></Link>
-                <div className={"flex flex-row gap-4"}>
+                <Link href={"/"}><Image className={"rounded-full w-auto lg:h-10 h-8 border-2 border-[#121212]"} width={100} height={100} src={logo} alt={"Fake Or Not Logo"} /></Link>
+                <div className={"flex flex-row lg:gap-4 gap-2"}>
                     <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={getLatestNews}>Latest News</motion.button>
                     <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={() => setIsModalOpen(true)}>Motive</motion.button>
                     <motion.a whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} target={"_blank"} href="https://github.com/BreakTos/Fake-News-Detection/">Download Extension</motion.a>
@@ -127,11 +129,11 @@ export default function Page() {
             </nav>
 
 
-            <motion.div layout className={""}>
-                <h1 className={"text-9xl text-[#121212]"}>News Verifier</h1>
+            <motion.div layout className={"my-4"}>
+                <h1 className={"lg:text-9xl text-8xl text-[#121212]"}>News Verifier</h1>
             </motion.div>
 
-            <motion.div layout className={"flex flex-row relative gap-2"}>
+            <motion.div layout className={"flex lg:flex-row flex-col relative gap-2"}>
                 <input required onKeyDown={handleKeyPress} autoFocus={true} placeholder={"Write Your Query Here..."} className={"px-5 border border-black rounded-lg min-w-[38vw] h-[5vh]"} type="text" value={query} onChange={(e) => setQuery(e.target.value)} />
                 <button className={" hover:bg-[#62C370] h-[5vh] px-5 right-0 border-2 border-gray-900 rounded-lg"} onClick={handleSearch}>Search</button>
                 {isSearched && (
@@ -189,7 +191,7 @@ export default function Page() {
                 //     <button onClick={clearButton}>Clear</button>
                 // </div>
                 <motion.div initial={{opacity: 0}} animate={{opacity:1}} className={"flex lg:flex-row flex-col gap-4"}>
-                    <ul className={"flex flex-col gap-6 lg:w-2/3 h-fit"}>
+                    <ul className={"flex flex-col gap-6 lg:w-2/3 w-full h-fit"}>
                         <div className={"border-b text-lg"}>
                             <h2>Fact Checks</h2>
                         </div>
@@ -198,11 +200,11 @@ export default function Page() {
                         {factChecks.map((factCheck) => (
                             // eslint-disable-next-line react/jsx-key
                             <AnimatePresence>
-                                <motion.li layoutId={factCheck.claimReview[0].url} initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }} className={"border border-black rounded-lg py-4 px-6 flex flex-row justify-between"} key={factCheck.claimReview[0].url}>
-                                    <a target={"_blank"} className={"line-clamp-1 hover:text-[#62C370]"} href={factCheck.claimReview[0].url}>{factCheck.claimReview[0].title}</a>
+                                <motion.li layoutId={factCheck.claimReview[0].url} initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }} className={"border border-black rounded-lg lg:py-4 lg:px-6 px-3 py-2 flex flex-row justify-between"} key={factCheck.claimReview[0].url}>
+                                    <a target={"_blank"} className={" hover:text-[#62C370]"} href={factCheck.claimReview[0].url}>{factCheck.claimReview[0].title}</a>
                                     {factCheck.claimReview[0].textualRating === "True" ?
-                                        <p className={"ml-10 text-green-500 line-clamp-1"}>{factCheck.claimReview[0].textualRating}</p> :
-                                        <p className={"ml-10 text-red-500 line-clamp-1"}>{factCheck.claimReview[0].textualRating}</p>}
+                                        <p className={"ml-10 text-green-500"}>{factCheck.claimReview[0].textualRating}</p> :
+                                        <p className={"ml-10 text-red-500"}>{factCheck.claimReview[0].textualRating}</p>}
                                     {/*<p className={"ml-10"}>{factCheck.claimReview[0].textualRating}</p>*/}
                                 </motion.li>
                             </AnimatePresence>
@@ -220,7 +222,7 @@ export default function Page() {
                         {articles.length > 0 && articles.map((article) => (
                             // eslint-disable-next-line react/jsx-key
                             <AnimatePresence>
-                                <motion.div layoutId={article.url} className={"border border-black rounded-lg py-4 px-6 h-max"} initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }} >
+                                <motion.div layoutId={article.url} className={"border border-black rounded-lg lg:py-4 lg:px-6 px-3 py-2 h-max"} initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }} >
                                     <a target={"_blank"} className={"hover:text-[#62C370]"} key={article.title} href={article.url}><h2>{article.title}</h2></a>
                                 </motion.div>
                             </AnimatePresence>
