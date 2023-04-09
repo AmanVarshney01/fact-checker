@@ -63,14 +63,19 @@ export default function Page() {
         setIsLoading(true)
         setIsErrorFacts(false)
         setIsErrorNews(false)
-        try {
-            const response = await fetch(`/api/factcheck?query=${encodeURIComponent(query)}`);
-            const results = await response.json();
-            setFactChecks(results);
-        } catch (error) {
+        if (query === '') {
+            setIsErrorNews(true)
             setIsErrorFacts(true)
+        } else {
+            try {
+                const response = await fetch(`/api/factcheck?query=${encodeURIComponent(query)}`);
+                const results = await response.json();
+                setFactChecks(results);
+            } catch (error) {
+                setIsErrorFacts(true)
+            }
+            getArticles(query)
         }
-        getArticles(query)
         setIsSearched(true)
         setIsLoading(false)
         setLatestNews([])
