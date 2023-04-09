@@ -7,7 +7,6 @@ import logo from "public/logo.jpg";
 import Link from "next/link";
 import axios from 'axios';
 import {AnimatePresence, motion} from "framer-motion";
-// import {Configuration, OpenAIApi} from "openai";
 
 const kanit = Kanit({
     subsets: ["latin"],
@@ -28,46 +27,27 @@ export default function Page() {
     const [isErrorFacts, setIsErrorFacts] = useState(false);
     const [isErrorNews, setIsErrorNews] = useState(false);
 
-    // const OPENAI_API_KEY = "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"
-    //
-    // async function getResponse() {
-    //     const options = {
-    //         method: 'POST',
-    //         headers: {
-    //             "Authorization": `Bearer ${OPENAI_API_KEY}`,
-    //             "Content-Type": "application/json"
-    //         },
-    //         body: JSON.stringify({
-    //             model: "text-davinci-003",
-    //             messages: [{role: "user", content: "How are you"}],
-    //             max_tokens: 64,
-    //         })
-    //     }
-    //
-    //     try {
-    //         const response = await fetch("https://api.openai.com/v1/chat/completions", options)
-    //         const data = await response.json()
-    //         console.log(data)
-    //
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
 
-    const getArticles = async (query) => {
-        try {
-            const response = await axios.get(
-                `https://newsapi.org/v2/everything?q=${query}&sortBy=popularity&page=1&pagesize=10&language=en&apiKey=c727a28d08b84681a92931c904b93a02`, {
-                    headers: {
-                        'Upgrade': 'Keep-Alive'
-                    }
-                }
-            );
-            setArticles(response.data.articles);
-        } catch (error) {
-            setIsErrorNews(true);
-        }
-    };
+    function getArticles({query}) {
+        const fetchNews = async () => {
+            const result = await fetch(`/api/news?searchQuery=${query}`);
+            const data = await result.json();
+
+            setArticles(data);
+        };
+        fetchNews()
+    }
+
+    // const getArticles = async (query) => {
+    //     try {
+    //         const response = await axios.get(
+    //             `https://newsapi.org/v2/everything?q=${query}&sortBy=popularity&page=1&pagesize=10&language=en&apiKey=c727a28d08b84681a92931c904b93a02`
+    //         );
+    //         setArticles(response.data.articles);
+    //     } catch (error) {
+    //         setIsErrorNews(true);
+    //     }
+    // };
     async function handleSearch() {
         setIsLoading(true)
         setIsErrorFacts(false)
