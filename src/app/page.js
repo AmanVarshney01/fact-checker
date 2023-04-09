@@ -20,12 +20,24 @@ export default function Page() {
     const [query, setQuery] = useState(search ? search : '');
     const [factChecks, setFactChecks] = useState([]);
     const [articles, setArticles] = useState([]);
+    const [latestNews, setLatestNews] = useState([]);
     const [isSearched, setIsSearched] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isErrorFacts, setIsErrorFacts] = useState(false);
     const [isErrorNews, setIsErrorNews] = useState(false);
 
+
+    function getLatestNews() {
+        setIsSearched(false)
+        const fetchNews = async () => {
+            const result = await fetch(`/api/latestNews`);
+            const data = await result.json();
+
+            setLatestNews(data);
+        };
+        fetchNews()
+    }
 
     function getArticles(query) {
         const fetchNews = async () => {
@@ -61,6 +73,7 @@ export default function Page() {
         getArticles(query)
         setIsSearched(true)
         setIsLoading(false)
+        setLatestNews([])
     }
 
     useEffect(()=> {
@@ -101,10 +114,12 @@ export default function Page() {
             <nav className={"bg-[#f1f1f1] w-full shadow-md fixed top-0 py-2 px-4 flex flex-row justify-between items-center z-10"}>
                 <Link href={"/"}><Image className={"rounded-full w-auto h-10 border-2 border-[#121212]"} width={100} height={100} src={logo} alt={"Fake Or Not Logo"} /></Link>
                 <div className={"flex flex-row gap-4"}>
+                    <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={getLatestNews}>Latest News</motion.button>
                     <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={() => setIsModalOpen(true)}>Motive</motion.button>
                     <motion.a whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} target={"_blank"} href="https://github.com/BreakTos/Fake-News-Detection/">Download Extension</motion.a>
                 </div>
             </nav>
+
 
             <motion.div layout className={""}>
                 <h1 className={"text-9xl text-[#121212]"}>News Verifier</h1>
@@ -145,6 +160,22 @@ export default function Page() {
                         </div>
                     </div> : null
             }</div>
+
+            {latestNews.length > 0 &&(
+                <div className={"flex flex-col gap-6 lg:w-fit h-fit"}>
+                    <div className={"border-b text-lg"}>
+                        <h2>Latest News</h2>
+                    </div>
+                    {latestNews.map((article) => (
+                        // eslint-disable-next-line react/jsx-key
+                        <AnimatePresence>
+                            <motion.div layoutId={article.url} className={"border border-black rounded-lg py-4 px-6 h-max"} initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }} >
+                                <a target={"_blank"} className={"hover:text-[#62C370]"} key={article.title} href={article.url}><h2>{article.title}</h2></a>
+                            </motion.div>
+                        </AnimatePresence>
+                    ))}
+                </div>
+            )}
 
             {isSearched &&
                 // <div className={"flex flex-row min-w-[40vw] justify-between gap-10"}>
