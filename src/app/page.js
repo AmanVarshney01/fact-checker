@@ -101,8 +101,8 @@ export default function Page() {
             <nav className={"bg-[#f1f1f1] w-full shadow-md fixed top-0 py-2 px-4 flex flex-row justify-between items-center z-10"}>
                 <Link href={"/"}><Image className={"rounded-full w-auto h-10 border-2 border-[#121212]"} width={100} height={100} src={logo} alt={"Fake Or Not Logo"} /></Link>
                 <div className={"flex flex-row gap-4"}>
-                    <button onClick={() => setIsModalOpen(true)}>Motive</button>
-                    <a target={"_blank"} href="https://github.com/BreakTos/Fake-News-Detection/">Download Extension</a>
+                    <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={() => setIsModalOpen(true)}>Motive</motion.button>
+                    <motion.a whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} target={"_blank"} href="https://github.com/BreakTos/Fake-News-Detection/">Download Extension</motion.a>
                 </div>
             </nav>
 
@@ -206,10 +206,11 @@ export default function Page() {
                                 className="bg-white rounded-lg overflow-hidden max-w-md w-full"
                                 onClick={(e) => e.stopPropagation()}
                             >
-                                <div className="px-3 py-4">
+                                <div className="p-4 text-lg flex flex-col gap-4">
                                     <p>
-                                        The motive for creating a news verifier app is to address the growing problem of fake news and misinformation that is prevalent in today&amp;s society. With the rise of social media and the ease of sharing information, it has become increasingly difficult to discern what information is true and what is false.
+                                        The motive for creating a news verifier app is to address the growing problem of fake news and misinformation that is prevalent in today&apos;s society. With the rise of social media and the ease of sharing information, it has become increasingly difficult to discern what information is true and what is false.
                                     </p>
+
                                 </div>
                                 <div className="flex justify-end p-4">
                                     <button
