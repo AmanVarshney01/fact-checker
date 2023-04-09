@@ -4,8 +4,7 @@ export default async (req, res) => {
     const NEWS_API_KEY = process.env.NEWS_API_KEY;
 
     const { query } = req;
-    const apiKey = NEWS_API_KEY;
-    const apiUrl = `https://newsapi.org/v2/everything?q=${query.searchQuery}&sortBy=popularity&page=1&pagesize=10&language=en&apiKey=${apiKey}`;
+    const apiUrl = `https://newsapi.org/v2/everything?q=${query.query}&sortBy=popularity&page=1&pagesize=10&language=en&apiKey=${NEWS_API_KEY}`;
 
     try {
         const response = await axios.get(apiUrl);

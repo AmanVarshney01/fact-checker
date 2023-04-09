@@ -27,9 +27,9 @@ export default function Page() {
     const [isErrorNews, setIsErrorNews] = useState(false);
 
 
-    function getArticles({query}) {
+    function getArticles(query) {
         const fetchNews = async () => {
-            const result = await fetch(`/api/news?searchQuery=${query}`);
+            const result = await fetch(`/api/news?query=${query}`);
             const data = await result.json();
 
             setArticles(data);
@@ -40,7 +40,7 @@ export default function Page() {
     // const getArticles = async (query) => {
     //     try {
     //         const response = await axios.get(
-    //             `https://newsapi.org/v2/everything?q=${query}&sortBy=popularity&page=1&pagesize=10&language=en&apiKey=`
+    //             `https://newsapi.org/v2/everything?q=${query}&sortBy=popularity&page=1&pagesize=10&language=en&apiKey=c727a28d08b84681a92931c904b93a02`
     //         );
     //         setArticles(response.data.articles);
     //     } catch (error) {
@@ -58,7 +58,7 @@ export default function Page() {
         } catch (error) {
             setIsErrorFacts(true)
         }
-        await getArticles(query)
+        getArticles(query)
         setIsSearched(true)
         setIsLoading(false)
     }
