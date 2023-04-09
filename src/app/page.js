@@ -120,7 +120,7 @@ export default function Page() {
 
             {/*<button onClick={getResponse}>response</button>*/}
             <nav className={"bg-[#f1f1f1] w-full shadow-md fixed top-0 py-2 px-4 flex flex-row justify-between items-center z-10"}>
-                <Link href={"/"}><Image className={"rounded-full w-auto lg:h-10 h-8 border-2 border-[#121212]"} width={100} height={100} src={logo} alt={"Fake Or Not Logo"} /></Link>
+                <motion.div whileHover={{rotateZ: 20}} whileTap={{rotateZ: 200}}><Link href={"/"}><Image className={"rounded-full w-auto lg:h-10 h-8 border-2 border-[#121212]"} width={100} height={100} src={logo} alt={"News Verifier Logo"} /></Link></motion.div>
                 <div className={"flex flex-row lg:gap-4 gap-2"}>
                     <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={getLatestNews}>Latest News</motion.button>
                     <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={() => setIsModalOpen(true)}>Motive</motion.button>
@@ -129,7 +129,7 @@ export default function Page() {
             </nav>
 
 
-            <motion.div layout className={"my-4"}>
+            <motion.div layout className={"lg:my-0 my-4"}>
                 <h1 className={"lg:text-9xl text-8xl text-[#121212]"}>News Verifier</h1>
             </motion.div>
 
