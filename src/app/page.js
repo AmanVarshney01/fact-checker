@@ -57,14 +57,17 @@ export default function Page() {
     const getArticles = async (query) => {
         try {
             const response = await axios.get(
-                `https://newsapi.org/v2/everything?q=${query}&sortBy=popularity&page=1&pagesize=10&language=en&apiKey=c727a28d08b84681a92931c904b93a02`
+                `https://newsapi.org/v2/everything?q=${query}&sortBy=popularity&page=1&pagesize=10&language=en&apiKey=c727a28d08b84681a92931c904b93a02`, {
+                    headers: {
+                        'Upgrade': 'Keep-Alive'
+                    }
+                }
             );
             setArticles(response.data.articles);
         } catch (error) {
             setIsErrorNews(true);
         }
     };
-
     async function handleSearch() {
         setIsLoading(true)
         setIsErrorFacts(false)
@@ -76,18 +79,13 @@ export default function Page() {
         } catch (error) {
             setIsErrorFacts(true)
         }
-        getArticles(query)
+        await getArticles(query)
         setIsSearched(true)
         setIsLoading(false)
     }
 
-    function clearButton() {
-        setFactChecks([])
-        setIsSearched(false)
-        setQuery('')
-    }
-
     useEffect(()=> {
+
         if (query) {
             handleSearch()
         } else {
@@ -106,6 +104,11 @@ export default function Page() {
 
     }, [])
 
+    function clearButton() {
+        setFactChecks([])
+        setIsSearched(false)
+        setQuery('')
+    }
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {
             handleSearch();
@@ -174,7 +177,7 @@ export default function Page() {
                         <div className={"border-b text-lg"}>
                             <h2>Fact Checks</h2>
                         </div>
-                        {isErrorFacts && <div>No Query found in our database :(</div>}
+                        {isErrorFacts && <div>No Results found in our database :(</div>}
                         {/*{factChecks.length === 0 && <li>No results</li>}*/}
                         {factChecks.map((factCheck) => (
                             // eslint-disable-next-line react/jsx-key
@@ -195,7 +198,7 @@ export default function Page() {
                         <div className={"border-b text-lg"}>
                             <h2>Relevant News</h2>
                         </div>
-                        {isErrorNews && <div>No Query found in our database :(</div>}
+                        {isErrorNews && <div>No Results found in our database :(</div>}
                         {/*{articles.length === 0 && <li>No results</li>}*/}
                         {articles.map((article) => (
                             // eslint-disable-next-line react/jsx-key
