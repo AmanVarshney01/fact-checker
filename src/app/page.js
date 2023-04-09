@@ -74,8 +74,8 @@ export default function Page() {
             } catch (error) {
                 setIsErrorFacts(true)
             }
-            getArticles(query)
         }
+        getArticles(query)
         setIsSearched(true)
         setIsLoading(false)
         setLatestNews([])
@@ -167,7 +167,7 @@ export default function Page() {
                     </div> : null
             }</div>
 
-            {latestNews.length > 0 &&(
+            {latestNews.length > 0 && (
                 <div className={"flex flex-col gap-6 lg:w-fit h-fit"}>
                     <div className={"border-b text-lg"}>
                         <h2>Latest News</h2>
@@ -216,7 +216,8 @@ export default function Page() {
                         </div>
                         {isErrorNews && <div>No Results found in our database :(</div>}
                         {/*{articles.length === 0 && <li>No results</li>}*/}
-                        {articles.map((article) => (
+
+                        {articles.length > 0 && articles.map((article) => (
                             // eslint-disable-next-line react/jsx-key
                             <AnimatePresence>
                                 <motion.div layoutId={article.url} className={"border border-black rounded-lg py-4 px-6 h-max"} initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }} >
