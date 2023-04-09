@@ -15,7 +15,6 @@ const kanit = Kanit({
 
 
 export default function Page() {
-    // const NEWS_API_KEY = process.env.NEWS_API_KEY;
     const searchParams = useSearchParams();
     const search = searchParams.get('search')
     const [query, setQuery] = useState(search ? search : '');
@@ -41,7 +40,7 @@ export default function Page() {
     // const getArticles = async (query) => {
     //     try {
     //         const response = await axios.get(
-    //             `https://newsapi.org/v2/everything?q=${query}&sortBy=popularity&page=1&pagesize=10&language=en&apiKey=c727a28d08b84681a92931c904b93a02`
+    //             `https://newsapi.org/v2/everything?q=${query}&sortBy=popularity&page=1&pagesize=10&language=en&apiKey=`
     //         );
     //         setArticles(response.data.articles);
     //     } catch (error) {

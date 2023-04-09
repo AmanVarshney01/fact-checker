@@ -1,8 +1,10 @@
 import axios from 'axios';
 
 export default async (req, res) => {
+    const NEWS_API_KEY = process.env.NEWS_API_KEY;
+
     const { query } = req;
-    const apiKey = 'c727a28d08b84681a92931c904b93a02';
+    const apiKey = NEWS_API_KEY;
     const apiUrl = `https://newsapi.org/v2/everything?q=${query.searchQuery}&sortBy=popularity&page=1&pagesize=10&language=en&apiKey=${apiKey}`;
 
     try {
