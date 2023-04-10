@@ -108,10 +108,10 @@ export default function Page() {
             {/*<button onClick={getResponse}>response</button>*/}
             <nav className={"bg-[#f1f1f1] w-full shadow-md fixed top-0 py-2 px-4 flex flex-row justify-between items-center z-10"}>
                 <motion.div whileHover={{rotateZ: 20}} whileTap={{rotateZ: 200}}><Link href={"/"}><Image className={"rounded-full w-auto lg:h-10 h-8 border-2 border-[#121212]"} width={100} height={100} src={logo} alt={"News Verifier Logo"} /></Link></motion.div>
-                <div className={"flex flex-row lg:gap-4 gap-2"}>
-                    <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={getLatestNews}>Latest News</motion.button>
-                    <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={() => setIsModalOpen(true)}>Motive</motion.button>
-                    <motion.a whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} target={"_blank"} href="https://github.com/BreakTos/Fake-News-Detection/">Download Extension</motion.a>
+                <div className={"flex flex-row lg:gap-4 gap-2 text-sm lg:text-lg"}>
+                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={getLatestNews}>Latest News</motion.button>
+                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => setIsModalOpen(true)}>Motive</motion.button>
+                    <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} target={"_blank"} href="https://github.com/BreakTos/Fake-News-Detection/">Download Extension</motion.a>
                 </div>
             </nav>
 
