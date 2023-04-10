@@ -27,28 +27,15 @@ export default function Page() {
     const [isErrorNews, setIsErrorNews] = useState(false);
 
 
-    function getLatestNews() {
+    async function getLatestNews() {
         setIsSearched(false)
-        const fetchNews = async () => {
-            const result = await fetch(`/api/latestNews`);
-            const data = await result.json();
-
-            setLatestNews(data);
-        };
-        fetchNews()
+        setIsLoading(true)
+        const result = await fetch(`/api/latestNews`);
+        const data = await result.json();
+        setLatestNews(data);
+        setIsLoading(false)
     }
 
-
-    // const getArticles = async (query) => {
-    //     try {
-    //         const response = await axios.get(
-    //             `https://newsapi.org/v2/everything?q=${query}&sortBy=popularity&page=1&pagesize=10&language=en&apiKey=c727a28d08b84681a92931c904b93a02`
-    //         );
-    //         setArticles(response.data.articles);
-    //     } catch (error) {
-    //         setIsErrorNews(true);
-    //     }
-    // };
     async function handleSearch() {
         setIsLoading(true)
         setIsErrorFacts(false)
@@ -171,8 +158,9 @@ export default function Page() {
 
             {latestNews.length > 0 && (
                 <div className={"flex flex-col gap-6 lg:w-fit h-fit"}>
-                    <div className={"border-b text-lg"}>
+                    <div className={"border-b text-lg flex flex-row justify-between"}>
                         <h2>Latest News</h2>
+                        <p>{latestNews.length} Results Found</p>
                     </div>
                     {latestNews.map((article) => (
                         // eslint-disable-next-line react/jsx-key
@@ -192,8 +180,9 @@ export default function Page() {
                 // </div>
                 <motion.div initial={{opacity: 0}} animate={{opacity:1}} className={"flex lg:flex-row flex-col gap-4"}>
                     <ul className={"flex flex-col gap-6 lg:w-2/3 w-full h-fit"}>
-                        <div className={"border-b text-lg"}>
+                        <div className={"border-b text-lg flex flex-row justify-between"}>
                             <h2>Fact Checks</h2>
+                            <p>{factChecks.length} Results Found</p>
                         </div>
                         {isErrorFacts && <div>No Results found in our database :(</div>}
                         {/*{factChecks.length === 0 && <li>No results</li>}*/}
@@ -213,8 +202,9 @@ export default function Page() {
 
                     {/*<button onClick={handleButtonClick}>Get Articles</button>*/}
                     <div className={"flex flex-col gap-6 lg:w-fit h-fit"}>
-                        <div className={"border-b text-lg"}>
+                        <div className={"border-b text-lg flex flex-row justify-between"}>
                             <h2>Relevant News</h2>
+                            <p>{articles.length} Results Found</p>
                         </div>
                         {isErrorNews && <div>No Results found in our database :(</div>}
                         {/*{articles.length === 0 && <li>No results</li>}*/}
